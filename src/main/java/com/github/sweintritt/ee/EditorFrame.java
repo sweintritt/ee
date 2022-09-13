@@ -156,7 +156,7 @@ class EditorFrame extends JFrame implements ActionListener {
 
                     // Set the text
                     setTitle(file.getName());
-                    textArea.setSyntaxEditingStyle(getSyntaxStyle(file));
+                    textArea.setSyntaxEditingStyle(SyntaxStyleProvider.get(file));
                     // textArea.setDocument();
                     textArea.setText(text.toString()); // TODO (sweintritt) what to do with large files?
                 } catch (Exception evt) {
@@ -168,29 +168,6 @@ class EditorFrame extends JFrame implements ActionListener {
             this.setTitle("new");
         } else {
             log.error("Unknown command: " + command);
-        }
-    }
-
-    // TODO (sweintritt) does not work correctly
-    private static String getSyntaxStyle(final File file) {
-        try {
-            String type = URLConnection.guessContentTypeFromName(file.getName());
-
-            if (StringUtils.isEmpty(type)) {
-                type = Files.probeContentType(file.toPath());
-            }
-
-            if (StringUtils.isEmpty(type)) {
-                type = URLConnection.getFileNameMap().getContentTypeFor(file.getName());
-            }
-
-            log.debug("Content type set to {}", type);
-            type = type.replace("application", "text");
-            log.debug("Content type set to {}", type);
-            return type;
-        } catch (final Exception e) {
-            log.error("Unable to get file type: {}", e.getMessage(), e);
-            return  SyntaxConstants.SYNTAX_STYLE_NONE;
         }
     }
 }

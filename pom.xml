@@ -29,7 +29,6 @@
         </developer>
     </developers>
 
-
    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
@@ -55,7 +54,11 @@
         <version.mockito>2.21.0</version.mockito>
         <version.log4j2>2.14.1</version.log4j2>
         <version.slf4j>1.7.25</version.slf4j>
-        <version.commins-cli>1.4</version.commins-cli>
+        <version.commons-cli>1.4</version.commons-cli>
+        <version.commons-lang>3.12.0</version.commons-lang>
+        <version.commons-collections>4.4</version.commons-collections>
+       <version.flatlaf>2.4</version.flatlaf>
+       <version.rsyntaxtextarea>3.2.0</version.rsyntaxtextarea>
    </properties>
    
     <dependencies>
@@ -98,7 +101,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- AssertJ -->
+        <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
@@ -106,7 +109,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Mockito -->
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -114,7 +117,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- SpotBugs -->
+        <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs -->
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs</artifactId>
@@ -122,7 +125,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Jacoco -->
+        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
@@ -130,32 +133,45 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Apache Commons CLI -->
+        <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
         <dependency>
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>
-            <version>${version.commins-cli}</version>
+            <version>${version.commons-cli}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${version.commons-lang}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${version.commons-collections}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf -->
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf</artifactId>
-            <version>2.4</version>
+            <version>${version.flatlaf}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf-intellij-themes -->
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf-intellij-themes</artifactId>
-            <version>2.4</version>
+            <version>${version.flatlaf}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fifesoft/rsyntaxtextarea -->
         <dependency>
             <groupId>com.fifesoft</groupId>
             <artifactId>rsyntaxtextarea</artifactId>
-            <version>3.2.0</version>
+            <version>${version.rsyntaxtextarea}</version>
         </dependency>
     </dependencies>
    
