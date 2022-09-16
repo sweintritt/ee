@@ -1,77 +1,82 @@
 package com.github.sweintritt.ee;
 
-import java.awt.Button;
+import com.github.sweintritt.ee.configuration.Configurator;
+import com.github.sweintritt.ee.configuration.Setting;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.awt.GridLayout;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
+import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+@Slf4j
 public class SettingsFrame extends JFrame {
 
-    private enum SettingsType {
-        BOOLEAN, STRING, INTEGER, LIST
-    }
+    private final GridLayout gridLayout;
 
-    private static class Setting {
-        public String name;
-        public String value;
-        public SettingsType type;
-        public String description;
-
-        //Transienat
-        public String defaultValue;
-        //Transienat
-        public Consumer<String> validator;
-        // Optional List of possible values
-        //Transienat
-        public List<String> possibleValues;
-
-        public String getValue() {
-            if (value == null) {
-                return defaultValue;
+    public SettingsFrame(final List<Configurator<?>> configurators) {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(final WindowEvent e) {
+                configurators.forEach(Configurator::update);
+                // TODO Save settings
             }
-
-            return value;
-        }
-    }
-
-    public SettingsFrame() {
+        });
+        gridLayout = new GridLayout(1, 1);
+        setLayout(gridLayout);
+        setTitle("Settings");
+        setSize(500, 100);
+        configurators.forEach(this::add);
+        setLocationRelativeTo(null);
+        pack();
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE); // indicates terminate operation on close of window
-        GridLayout gl = new GridLayout(3, 2);// create grid layout frame
-        setLayout(gl);
-        setTitle("Demo For Grid Layout");
-        setSize(200, 200);
-        add(new Button("Button A"));
-        add(new Button("Button B"));
-        add(new Button("Button C"));
-        add(new Button("Button D"));
-        gl.setRows(gl.getRows() + 1);
-        add(new Button("Button E"));
-        gl.setRows(gl.getRows() + 1);
-        add(new Button("Button F"));
-        gl.setRows(gl.getRows() + 1);
     }
 
-    private static Map<String, List<Setting>> getSetttings() {
-        final Setting showLineNumbers = new Setting();
-        showLineNumbers.defaultValue = Boolean.TRUE.toString().toLowerCase();
-        showLineNumbers.name = "Show line numbers";
-        showLineNumbers.description = "Display line numbers in the editor";
-        showLineNumbers.type = SettingsType.BOOLEAN;
-        showLineNumbers.validator = v -> {
-            if (v == null || Boolean.valueOf(v) == null) {
-                throw new IllegalArgumentException("Null not allowed");
-            }
-        };
+    public void add(final Configurator<?> configurator) {
+        final JPanel section = new JPanel();
+        section.setBorder(BorderFactory.createTitledBorder(configurator.getName()));
+        final GridLayout sectionLayout = new GridLayout(1, 2);
+        section.setLayout(sectionLayout);
 
-        final Map<String, List<Setting>> settings = new HashMap<>();
-        settings.put("editor", Arrays.asList(showLineNumbers));
-        return settings;
+        for (final Map.Entry<String, Setting> entry : configurator.getSettings().entrySet()) {
+            section.add(new JLabel(entry.getKey()));
+            section.add(getInputComponent(entry.getValue()));
+            sectionLayout.setRows(sectionLayout.getRows() + 1);
+        }
 
+        add(section);
+        gridLayout.setRows(gridLayout.getRows() + 1);
+    }
+
+    private JComponent getInputComponent(final Setting setting) {
+        if (!CollectionUtils.isEmpty(setting.getPossibleValues())) {
+            final JComboBox<String> comboBox = new JComboBox<>(setting.getPossibleValues().toArray(new String[]{}));
+            comboBox.setSelectedItem(setting.getValue());
+            comboBox.addItemListener(e -> setting.setValue((String) comboBox.getSelectedItem()));
+            return comboBox;
+        } else if (setting.getType().equals(String.class)) {
+            final JTextField textField = new JTextField(setting.getValue());
+            textField.getDocument().addDocumentListener((ValueChangedListener) e -> setting.setValue(textField.getText()));
+            return new JTextField(setting.getValue());
+        } else if (setting.getType().equals(Boolean.class)) {
+            final JCheckBox checkBox = new JCheckBox(StringUtils.EMPTY, setting.getBooleanValue());
+            checkBox.addChangeListener(e -> setting.setValue(String.valueOf(checkBox.isSelected())));
+            return checkBox;
+        } else {
+            log.error("Unknown type for value {}", setting.getValue());
+            return null;
+        }
     }
 }

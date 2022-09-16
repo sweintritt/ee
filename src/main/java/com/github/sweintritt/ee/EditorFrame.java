@@ -4,11 +4,13 @@ package com.github.sweintritt.ee;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
-import com.formdev.flatlaf.util.StringUtils;
+import com.github.sweintritt.ee.actions.OpenSettings;
+import com.github.sweintritt.ee.configuration.Configurator;
+import com.github.sweintritt.ee.configuration.EditorConfigurator;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.imageio.ImageIO;
@@ -32,17 +34,23 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URLConnection;
-import java.nio.file.Files;
+import java.util.LinkedList;
+import java.util.List;
 
 // Editor Exampel - ee
 @Slf4j
 class EditorFrame extends JFrame implements ActionListener {
+    @Getter
     private final RSyntaxTextArea textArea;
     private final JFileChooser fileChooser;
 
+    private final List<Configurator<?>> configurators;
+
     public EditorFrame() throws IOException, URISyntaxException {
         super("EditorExample");
+
+        configurators = new LinkedList<>();
+
         FlatLightLaf.setup();
 
         try {
@@ -55,61 +63,40 @@ class EditorFrame extends JFrame implements ActionListener {
         fileChooser = new JFileChooser();
         textArea = new RSyntaxTextArea(50, 150);
         textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
-        Theme.load(getClass()
-                        .getResourceAsStream("/org/fife/ui/rsyntaxtextarea/themes/monokai.xml"))
-                .apply(textArea);
-        textArea.setCodeFoldingEnabled(true);
+        configurators.add(new EditorConfigurator(textArea));
+
         final RTextScrollPane scrollPane = new RTextScrollPane(textArea);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         cp.add(scrollPane);
         setContentPane(cp);
 
-        // Create a menubar
-        JMenuBar mb = new JMenuBar();
+        final JMenu fileMenu = new JMenu("File");
+        addItem(fileMenu, "New", this);
+        addItem(fileMenu, "Open", this);
+        addItem(fileMenu, "Save", this);
+        addItem(fileMenu, "Settings", new OpenSettings(configurators));
 
-        // Create amenu for menu
-        JMenu m1 = new JMenu("File");
+        final JMenu editMenu = new JMenu("Edit");
+        addItem(editMenu, "cut", this);
+        addItem(editMenu, "copy", this);
+        addItem(editMenu, "paste", this);
 
-        // Create menu items
-        JMenuItem mi1 = new JMenuItem("New");
-        JMenuItem mi2 = new JMenuItem("Open");
-        JMenuItem mi3 = new JMenuItem("Save");
+        final JMenuBar menuBar = new JMenuBar();
+        menuBar.add(fileMenu);
+        menuBar.add(editMenu);
+        setJMenuBar(menuBar);
 
-        // Add action listener
-        mi1.addActionListener(this);
-        mi2.addActionListener(this);
-        mi3.addActionListener(this);
-
-        m1.add(mi1);
-        m1.add(mi2);
-        m1.add(mi3);
-
-        // Create amenu for menu
-        JMenu m2 = new JMenu("Edit");
-
-        // Create menu items
-        JMenuItem mi4 = new JMenuItem("cut");
-        JMenuItem mi5 = new JMenuItem("copy");
-        JMenuItem mi6 = new JMenuItem("paste");
-
-        // Add action listener
-        mi4.addActionListener(this);
-        mi5.addActionListener(this);
-        mi6.addActionListener(this);
-
-        m2.add(mi4);
-        m2.add(mi5);
-        m2.add(mi6);
-
-        mb.add(m1);
-        mb.add(m2);
-
-        setJMenuBar(mb);
         setIconImage(ImageIO.read(new File(this.getClass().getClassLoader().getResource("icon_64.png").toURI())));
         setSize(500, 500);
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    private static void addItem(final JMenu menu, final String text, final ActionListener actionListener) {
+        JMenuItem item = new JMenuItem(text);
+        item.addActionListener(actionListener);
+        menu.add(item);
     }
 
     public void actionPerformed(final ActionEvent e) {

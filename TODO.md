@@ -2,7 +2,7 @@ ToDO
 =====
 
 * show whitespaces
-* set highlighting based on file
+* configure editor
 * Status line
 * Extract commands into separate classes
 * generic settingsmenu
