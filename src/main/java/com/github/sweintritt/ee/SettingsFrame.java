@@ -2,6 +2,7 @@ package com.github.sweintritt.ee;
 
 import com.github.sweintritt.ee.configuration.Configurator;
 import com.github.sweintritt.ee.configuration.Setting;
+import com.github.sweintritt.ee.configuration.SettingsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +33,12 @@ public class SettingsFrame extends JFrame {
         addWindowListener(new WindowAdapter() {
             public void windowClosing(final WindowEvent e) {
                 configurators.forEach(Configurator::update);
-                // TODO Save settings
+                try {
+                    SettingsService.getInstance().save(configurators);
+                } catch (IOException ex) {
+                    // TODO Handle nicely
+                    throw new RuntimeException(ex);
+                }
             }
         });
         gridLayout = new GridLayout(1, 1);
@@ -66,11 +73,11 @@ public class SettingsFrame extends JFrame {
             comboBox.setSelectedItem(setting.getValue());
             comboBox.addItemListener(e -> setting.setValue((String) comboBox.getSelectedItem()));
             return comboBox;
-        } else if (setting.getType().equals(String.class)) {
+        } else if (setting.getType().equals(Setting.Type.STRING)) {
             final JTextField textField = new JTextField(setting.getValue());
             textField.getDocument().addDocumentListener((ValueChangedListener) e -> setting.setValue(textField.getText()));
             return new JTextField(setting.getValue());
-        } else if (setting.getType().equals(Boolean.class)) {
+        } else if (setting.getType().equals(Setting.Type.BOOLEAN)) {
             final JCheckBox checkBox = new JCheckBox(StringUtils.EMPTY, setting.getBooleanValue());
             checkBox.addChangeListener(e -> setting.setValue(String.valueOf(checkBox.isSelected())));
             return checkBox;

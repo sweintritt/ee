@@ -41,22 +41,22 @@ public class EditorConfigurator extends Configurator<RSyntaxTextArea> {
         final Map<String, Setting> defaults = new HashMap<>();
         defaults.put(CODE_FOLDING, Setting.builder()
                         .name(CODE_FOLDING)
-                        .type(Boolean.class)
+                        .type(Setting.Type.BOOLEAN)
                         .defaultValue(String.valueOf(Boolean.FALSE))
                         .build());
         defaults.put(HIGHTLIGHT_CURRENT_LINE, Setting.builder()
                 .name(HIGHTLIGHT_CURRENT_LINE)
-                .type(Boolean.class)
+                .type(Setting.Type.BOOLEAN)
                 .defaultValue(String.valueOf(Boolean.TRUE))
                 .build());
         defaults.put(AUTO_INDENT, Setting.builder()
                 .name(AUTO_INDENT)
-                .type(Boolean.class)
+                .type(Setting.Type.BOOLEAN)
                 .defaultValue(String.valueOf(Boolean.TRUE))
                 .build());
         defaults.put(EDITOR_THEME, Setting.builder()
                         .name(EDITOR_THEME)
-                        .type(String.class)
+                        .type(Setting.Type.STRING)
                         .defaultValue("monokai")
                         .possibleValues(Arrays.asList("dark", "default", "druid", "eclipse", "idea", "monokai"))
                         .build());

@@ -10,16 +10,22 @@ import java.util.Optional;
 @Data
 @Builder
 public class Setting {
+
+    public enum Type {
+        STRING, BOOLEAN
+    }
+
     @NonNull
     private String name;
     @NonNull
-    private Class<?> type;
+    private Type type;
     private String value;
     @NonNull
     private String defaultValue;
     private List<String> possibleValues;
 
     public String getValue() {
+        final String v = Optional.ofNullable(value).orElse(defaultValue);
         return Optional.ofNullable(value).orElse(defaultValue);
     }
 

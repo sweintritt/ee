@@ -44,12 +44,8 @@ class EditorFrame extends JFrame implements ActionListener {
     private final RSyntaxTextArea textArea;
     private final JFileChooser fileChooser;
 
-    private final List<Configurator<?>> configurators;
-
-    public EditorFrame() throws IOException, URISyntaxException {
+    public EditorFrame(final List<Configurator<?>> configurators) throws IOException, URISyntaxException {
         super("EditorExample");
-
-        configurators = new LinkedList<>();
 
         FlatLightLaf.setup();
 
@@ -63,7 +59,6 @@ class EditorFrame extends JFrame implements ActionListener {
         fileChooser = new JFileChooser();
         textArea = new RSyntaxTextArea(50, 150);
         textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
-        configurators.add(new EditorConfigurator(textArea));
 
         final RTextScrollPane scrollPane = new RTextScrollPane(textArea);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
