@@ -27,7 +27,6 @@ public class SettingsService {
                 .disableHtmlEscaping()
                 .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
                 .setPrettyPrinting()
-                // .registerTypeAdapter(Setting.class, new SettingSerializer())
                 .create();
         configFile = new File(System.getProperty("user.home") + File.separator + ".ee.json");
         log.debug("config file: {}{}{}", configFile.getAbsolutePath(), File.separator, configFile.getName());

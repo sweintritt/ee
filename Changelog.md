@@ -2,11 +2,18 @@
 
 ## Unreleased
 
+## Changed
+
+* Some simplifications
+
+## [0.2.0] - 2022-09-18
+
 ### Added
 
 * Added maven build, readme and changelog.
-* flat ui look and feel
-* syntax text area
+* Flat ui look and feel.
+* Syntax text area.
+* Configuration of the editor with settings dialog.
 
 ## [0.1.0] - 2022-09-08
 
