@@ -19,7 +19,7 @@ public class SaveFile implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        // Invoke the showsSaveDialog function to show the save dialog
+        // TODO (sweintritt) Check for present file
         final int result = fileChooser.showSaveDialog(null);
 
         if (result == JFileChooser.APPROVE_OPTION) {
