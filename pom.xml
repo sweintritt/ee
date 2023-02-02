@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.sweintritt</groupId>
@@ -29,11 +29,11 @@
         </developer>
     </developers>
 
-   <properties>
+    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <main.class>com.github.sweintritt.ee.EditorFrame</main.class>
+        <main.class>com.github.sweintritt.ee.Main</main.class>
         <!-- Plugin Versions -->
         <!-- TODO Update all -->
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
@@ -50,16 +50,16 @@
         <version.lombok>1.18.24</version.lombok>
         <version.assertj>3.23.1</version.assertj>
         <version.mockito>4.8.0</version.mockito>
-        <version.log4j2>2.18.0</version.log4j2>
-        <version.slf4j>2.0.0</version.slf4j>
+        <version.log4j2>2.19.0</version.log4j2>
+        <version.slf4j>1.7.36</version.slf4j>
         <version.commons-cli>1.5.0</version.commons-cli>
-       <version.commons.io>2.11.0</version.commons.io>
+        <version.commons.io>2.11.0</version.commons.io>
         <version.commons-lang>3.12.0</version.commons-lang>
         <version.commons-collections>4.4</version.commons-collections>
-       <version.flatlaf>2.4</version.flatlaf>
-       <version.rsyntaxtextarea>3.2.0</version.rsyntaxtextarea>
-       <version.gson>2.9.1</version.gson>
-   </properties>
+        <version.flatlaf>2.4</version.flatlaf>
+        <version.rsyntaxtextarea>3.2.0</version.rsyntaxtextarea>
+        <version.gson>2.9.1</version.gson>
+    </properties>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
@@ -78,19 +78,25 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
             <version>${version.log4j2}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>${version.log4j2}</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j18-impl</artifactId>
+            <version>${version.log4j2}</version>
+        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
             <version>${version.log4j2}</version>
         </dependency>
 
@@ -196,9 +202,9 @@
         </dependency>
     </dependencies>
 
-   <build>
-       <plugins>
-           <plugin>
+    <build>
+        <plugins>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${version.maven-compiler-plugin}</version>
@@ -244,7 +250,8 @@
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <version>${version.spotbugs-maven-plugin}</version>
                 <dependencies>
-                    <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
+                    <!-- overwrite dependency on spotbugs if you want to specify the version of
+                    spotbugs -->
                     <dependency>
                         <groupId>com.github.spotbugs</groupId>
                         <artifactId>spotbugs</artifactId>
@@ -253,7 +260,8 @@
                 </dependencies>
 
                 <configuration>
-                    <!-- Enables analysis which takes more memory but finds more bugs. If you run out of memory, changes 
+                    <!-- Enables analysis which takes more memory but finds more bugs. If you run
+                    out of memory, changes 
                     the value of the effort element to 'Low'. -->
                     <effort>Max</effort>
                     <!-- Build doesn't fail if problems are found -->
@@ -326,32 +334,32 @@
                     </archive>
                 </configuration>
             </plugin>
-           <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-shade-plugin</artifactId>
-               <version>${version.maven-shade-plugin}</version>
-               <executions>
-                   <execution>
-                       <phase>package</phase>
-                       <goals>
-                           <goal>shade</goal>
-                       </goals>
-                       <configuration>
-                           <filters>
-                               <filter>
-                                   <artifact>*:*</artifact>
-                                   <excludes>
-                                       <!--
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${version.maven-shade-plugin}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <!--
                                        <exclude>*.xml</exclude>
                                        <exclude>*.xsd</exclude>
                                        -->
-                                   </excludes>
-                               </filter>
-                           </filters>
-                       </configuration>
-                   </execution>
-               </executions>
-           </plugin>
-       </plugins>
-   </build>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
