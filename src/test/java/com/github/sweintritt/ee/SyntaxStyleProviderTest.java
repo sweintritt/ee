@@ -1,7 +1,7 @@
 package com.github.sweintritt.ee;
 
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.HashMap;
@@ -9,10 +9,10 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SyntaxStyleProviderTest {
+class SyntaxStyleProviderTest {
 
     @Test
-    public void test() {
+    void test() {
         final Map<String, String> values = new HashMap<>();
 
         values.put("file.c", SyntaxConstants.SYNTAX_STYLE_C);
