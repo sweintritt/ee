@@ -30,6 +30,7 @@ public class SettingsFrame extends JFrame {
 
     public SettingsFrame(final List<Configurator<?>> configurators) {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        // TODO extract command
         addWindowListener(new WindowAdapter() {
             public void windowClosing(final WindowEvent e) {
                 configurators.forEach(Configurator::update);
@@ -44,7 +45,7 @@ public class SettingsFrame extends JFrame {
         gridLayout = new GridLayout(1, 1);
         setLayout(gridLayout);
         setTitle("Settings");
-        setSize(500, 100);
+        //setSize(500, 100);
         configurators.forEach(this::add);
         setLocationRelativeTo(null);
         pack();
@@ -73,7 +74,7 @@ public class SettingsFrame extends JFrame {
             comboBox.setSelectedItem(setting.getValue());
             comboBox.addItemListener(e -> setting.setValue((String) comboBox.getSelectedItem()));
             return comboBox;
-        } else if (setting.getType().equals(Setting.Type.STRING)) {
+        } else if (setting.getType().equals(Setting.Type.STRING) || setting.getType().equals(Setting.Type.INTEGER)) {
             final JTextField textField = new JTextField(setting.getValue());
             textField.getDocument().addDocumentListener((ValueChangedListener) e -> setting.setValue(textField.getText()));
             return new JTextField(setting.getValue());

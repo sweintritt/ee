@@ -12,7 +12,7 @@ import java.util.Optional;
 public class Setting {
 
     public enum Type {
-        STRING, BOOLEAN
+        STRING, BOOLEAN, INTEGER
     }
 
     @NonNull
@@ -25,11 +25,14 @@ public class Setting {
     private List<String> possibleValues;
 
     public String getValue() {
-        final String v = Optional.ofNullable(value).orElse(defaultValue);
         return Optional.ofNullable(value).orElse(defaultValue);
     }
 
     public boolean getBooleanValue() {
         return Boolean.parseBoolean(getValue());
+    }
+
+    public int getIntegerValue() {
+        return Integer.parseInt(getValue());
     }
 }

@@ -84,7 +84,8 @@ public class EditorFrame extends JFrame {
         menuBar.add(editMenu);
         setJMenuBar(menuBar);
 
-        setIconImage(ImageIO.read(new File(this.getClass().getClassLoader().getResource("icon_64.png").toURI())));
+        // TODO Icon not working when starting from jar
+        setIconImage(ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icon_64.png") ));
         setSize(500, 500);
         pack();
         setLocationRelativeTo(null);
