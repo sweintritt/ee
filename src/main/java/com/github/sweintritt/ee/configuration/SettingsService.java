@@ -52,6 +52,7 @@ public class SettingsService {
         for (final Configurator<?> configurator : configurators) {
             for (final Setting setting : configurator.getSettings().values()) {
                 if (setting.getValue() != null && !setting.getValue().equals(setting.getDefaultValue())) {
+                    // TODO Use a sorted map to show the settings in a fixed order in the settings dialog
                     settings.computeIfAbsent(configurator.getName(), c -> new HashMap<>()).put(setting.getName(), setting.getValue());
                 }
             }

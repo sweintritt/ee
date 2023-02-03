@@ -42,10 +42,10 @@ public class SettingsFrame extends JFrame {
                 }
             }
         });
+
         gridLayout = new GridLayout(1, 1);
         setLayout(gridLayout);
         setTitle("Settings");
-        //setSize(500, 100);
         configurators.forEach(this::add);
         setLocationRelativeTo(null);
         pack();
@@ -55,17 +55,15 @@ public class SettingsFrame extends JFrame {
     public void add(final Configurator<?> configurator) {
         final JPanel section = new JPanel();
         section.setBorder(BorderFactory.createTitledBorder(configurator.getName()));
-        final GridLayout sectionLayout = new GridLayout(1, 2);
+        final GridLayout sectionLayout = new GridLayout(configurator.getSettings().size(), 2, 10, 10);
         section.setLayout(sectionLayout);
 
         for (final Map.Entry<String, Setting> entry : configurator.getSettings().entrySet()) {
             section.add(new JLabel(entry.getKey()));
             section.add(getInputComponent(entry.getValue()));
-            sectionLayout.setRows(sectionLayout.getRows() + 1);
         }
 
         add(section);
-        gridLayout.setRows(gridLayout.getRows() + 1);
     }
 
     private JComponent getInputComponent(final Setting setting) {
