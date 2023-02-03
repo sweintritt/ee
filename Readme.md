@@ -2,6 +2,7 @@
 
 Simple editor written in Java. Original Version copied from https://www.geeksforgeeks.org/java-swing-create-a-simple-text-editor.
 
+Using
 
 * [FlatLaf - Flat Look and Feel](https://www.formdev.com/flatlaf/)
   * [Themes](https://www.formdev.com/flatlaf/themes/) 
