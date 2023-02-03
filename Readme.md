@@ -1,6 +1,6 @@
 # Editor example
 
-Simple editor written in Java. Original Version copied from https://www.geeksforgeeks.org/java-swing-create-a-simple-text-editor.
+Very simple editor written in Java. Original Version copied from https://www.geeksforgeeks.org/java-swing-create-a-simple-text-editor.
 
 Using
 
