@@ -2,7 +2,11 @@
 
 Very simple editor written in Java. Original Version copied from https://www.geeksforgeeks.org/java-swing-create-a-simple-text-editor.
 
+The main window:
+
 ![Editor](doc/editor.png "Main window")
+
+It is even possible to change a few settings:
 
 ![Settings](doc/settings.png "Settings")
 
